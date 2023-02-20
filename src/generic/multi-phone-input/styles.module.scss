@@ -1,0 +1,49 @@
+.input-wrapper {
+  display: grid;
+  // border: 2px solid green;
+}
+
+.placeholder {
+  display: flex;
+  padding-left: 12px; // move padding to parent?
+  // justify-content: center;
+  align-items: center;
+  color: rgba(black, 0.3);
+}
+
+.content-editable {
+  z-index: 1;
+  border: 2px solid red;
+  border-radius: 5px;
+  padding: 10px;
+
+  &:focus {
+    outline: 4px solid rgba(blue, 0.5);
+    outline-offset: 5px;
+  }
+}
+
+.placeholder,
+.content-editable {
+  grid-area: 1 / 1 / 1 / 1;
+}
+
+.chip {
+  padding: 5px;
+  border-radius: 5px;
+  // margin: 0 5px;
+  background: rgba(red, 0.4);
+  white-space: nowrap;
+  display: inline-flex;
+  // gap: 4px;
+
+  // &::after {
+  //   // padding-left: 10px;
+  //   color: rgba(black, 0.3);
+  //   content: attr(data-country-code);
+  // }
+}
+
+// .format-part:not(:last-child) {
+//   pa
+// }

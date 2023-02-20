@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
+
+.input {
+  border: 2px solid gray;
+  padding: 5px;
+  display: flex;
+  flex-flow: row;
+  gap: 5px;
+  align-items: center;
+}

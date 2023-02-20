@@ -1,0 +1,16 @@
+/*
+  Best solution I've so far come up with for
+  the inner/outer container issue.
+  https://css-tricks.com/the-inside-problem/
+*/
+
+@mixin default($width: 500px, $padding: 30px) {
+  width: 100%;
+  overflow: hidden;
+
+  // Intentionally does not use shorthand as it would easily collide
+  // if vertical paddings are also set
+  @each $dir in left, right {
+    padding-#{$dir}: max($padding, calc(calc(100% - $width) / 2));
+  }
+}

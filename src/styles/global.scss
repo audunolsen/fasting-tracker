@@ -1,0 +1,32 @@
+@use "reset";
+@use "containers";
+@use "focus";
+
+body {
+  // min-height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // border: 10px solid pink;
+}
+
+main {
+  padding: 20px;
+  @include containers.default($width: 400px, $padding: 30px);
+  flex: 1;
+
+  background: #f3f3f3;
+  // border: 2px solid red;
+}
+
+footer {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  background: #e9e8e9;
+}

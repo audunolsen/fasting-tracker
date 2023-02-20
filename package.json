@@ -1,0 +1,47 @@
+{
+  "name": "fasting-tracker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "analyze": "vite build -- analyze",
+    "analyze:dev": "vite build --mode production -- analyze"
+  },
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.4.3",
+    "@lexical/react": "^0.7.6",
+    "@reduxjs/toolkit": "^1.9.1",
+    "firebase": "^9.17.1",
+    "immer": "^9.0.18",
+    "lexical": "^0.7.6",
+    "libphonenumber-js": "^1.10.18",
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "remeda": "^1.6.2",
+    "valtio": "^1.7.6",
+    "zod": "^3.20.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.2.5",
+    "@types/lodash-es": "^4.17.6",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@vitejs/plugin-react": "^3.0.0",
+    "eslint-plugin-valtio": "^0.6.1",
+    "jest": "^29.3.1",
+    "jsdom": "^21.0.0",
+    "prettier": "^2.8.1",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "sass": "^1.56.2",
+    "typescript": "^4.9.5",
+    "vite": "^4.0.0",
+    "vite-tsconfig-paths": "^4.0.2",
+    "vitest": "^0.25.8"
+  }
+}

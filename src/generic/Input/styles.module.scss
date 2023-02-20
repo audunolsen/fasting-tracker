@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  border: 2px solid grey;
+  padding: 10px 5px;
+
+  /*
+    custom invalid class honors native validity rapporting for when
+    it appears hence its usage over :invalid which appears at all
+    times when invalid (intrusive and overbearing)
+  */
+
+  &.invalid {
+    border-color: red;
+  }
+}
+
+.invalid-text {
+  color: red;
+}
