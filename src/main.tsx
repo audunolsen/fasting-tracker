@@ -8,6 +8,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { useMount } from "~hooks"
 
 import { initializeApp } from "firebase/app"
+import Axios from "axios"
+import { ZodError } from "zod"
+import useIntercept from "~api/use-intercept"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDLx5ZCQUs4XakzIkwoBqPsOiXNCwfDfT8",
@@ -19,19 +22,20 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+const router = createBrowserRouter(routes)
 
 // const routes = createRoutes()
 
-console.log({ routes })
+// console.log({ routes })
 
-const router = createBrowserRouter(routes)
-
-console.log({ routes, router })
+// console.log({ routes, router })
 
 function App() {
   useMount(() => {
     console.log("[APP] mount")
   })
+
+  useIntercept()
 
   return (
     <Layout>

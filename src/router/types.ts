@@ -3,7 +3,8 @@ import { RouteObject } from "react-router-dom"
 
 export interface CustomRouteOptions {
   /**
-   * Does not affect nested routes
+   * Decision needed; should this prop redirect or
+   * just not show own comp on missing auth?
    */
   auth?: boolean
   /**
@@ -25,7 +26,7 @@ type Prettify<T> = { [K in keyof T]: T[K] } & {}
 
 export type Options = Prettify<BaseOptions & CustomRouteOptions>
 export type Auth = "awaiting" | boolean
-export type Module = { default: ComponentType }
+export type Module = { default: ComponentType; config: Options }
 
 /**
  * Type which can be passed to react-router-dom directly,

@@ -9,12 +9,13 @@ interface Props {
 }
 
 /**
+ * Hmmmmm WIP
+ *
  * This doesn't actually do any auth access handling,
- * it just ensures the auth status is retrieved before
- * rendering routes
+ * it just ensures renderings is deferred until login status is resolved
  */
 export default function AuthHandler() {
-  const loggedIn = useLoaderData()
+  // const loggedIn = useLoaderData()
 
   return (
     <>

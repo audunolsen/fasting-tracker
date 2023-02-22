@@ -1,4 +1,4 @@
-import { Module, Options } from "~router/types"
+import { Module } from "~router/types"
 
 /**
  * Collection of Promise-callbacks resolving route components.
@@ -13,10 +13,9 @@ const components = import.meta.glob<Module>("/src/pages/**/*page.tsx")
  * Configs for each route-entry. Use `definePageConfig` to create
  * rect-router-dom's `RouteObject` config w/ reasonable defaults
  *
- * This glob makes exporting Config required. (Is this level of explicitness wanted?)
+ * Defaults to emtpy `definePageConfig()` call
  */
-const configs = import.meta.glob<Options>("/src/pages/**/*page.tsx", {
-  import: "config",
+const configs = import.meta.glob<Module>("/src/pages/**/*page.tsx", {
   eager: true,
 })
 

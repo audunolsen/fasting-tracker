@@ -1,6 +1,5 @@
 import * as React from "react"
 import { useParams, defer, useLoaderData, Await } from "react-router-dom"
-import { useMount } from "~hooks"
 import definePageConfig from "~router/define-page-config"
 
 export default function Project() {
@@ -11,17 +10,13 @@ export default function Project() {
     console.log(data)
   }, [data])
 
-  // useMount(() => {
-  //   console.log("Mount!!")
-  // })
-
   return (
     <>
       <Await resolve={data.packageLocation}>
         {(newData) => (
           <>
             <div>
-              Your currently selecteddd project ???? {id} {splat}
+              Your currently yasssss selecteddd project ???? {id} {splat}
             </div>
             <div>{String(newData)}</div>
           </>

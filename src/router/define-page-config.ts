@@ -11,14 +11,14 @@ import { createElement } from "react"
 export default function definePageConfig({
   auth = true,
   nested = true,
-  errorElement = createElement(ErrorBoundry),
+  // errorElement = createElement(ErrorBoundry),
 
   ...rest
 }: Options = {}) {
   return {
     auth,
     nested,
-    errorElement,
+    // errorElement,
     ...rest,
   }
 }

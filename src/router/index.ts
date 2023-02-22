@@ -1,18 +1,22 @@
-import createFlat from "~router/setup/create-flat"
-import createTree from "~router/setup/create-tree"
+import { routeTree } from "./setup/route-tree"
+import { routeList } from "./setup/route-list"
+
 import ProtectedRoute, { authConfig } from "~router/protected-route"
-import { RouteObject } from "react-router-dom"
+import type { RouteObject } from "react-router-dom"
 import { createElement } from "react"
+
+console.log({ routeTree, routeList })
 
 const AuthWrapper: [RouteObject] = [
   {
     ...(authConfig as any),
     element: createElement(ProtectedRoute),
-    children: createTree({ current: createFlat() }),
+    children: routeTree,
   },
 ]
 
 export { AuthWrapper as routes }
+export { default as definePageConfig } from "./define-page-config"
 
 /**
  * MISC THOUGHTS
