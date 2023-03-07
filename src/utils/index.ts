@@ -1,3 +1,5 @@
 export { default as cn } from "./cn"
 export { default as assertElement } from "./assert-element"
 export { default as formFields } from "./form-fields"
+export { default as coerceError } from "./coerce-error"
+export { default as isElement } from "./is-element"

@@ -4,7 +4,7 @@ import * as React from "react"
 import "./styles/global.scss"
 import { routes } from "~router"
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
 import { useMount } from "~hooks"
 
 import { initializeApp } from "firebase/app"
@@ -12,6 +12,7 @@ import Axios from "axios"
 import { ZodError } from "zod"
 import useIntercept from "~api/use-intercept"
 
+// Ooops these shouldn't be tracked lmao, todo: invalidate and generate new
 const firebaseConfig = {
   apiKey: "AIzaSyDLx5ZCQUs4XakzIkwoBqPsOiXNCwfDfT8",
   authDomain: "fasting-tracker-a7467.firebaseapp.com",
@@ -22,12 +23,10 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter([...routes])
 
 // const routes = createRoutes()
-
 // console.log({ routes })
-
 // console.log({ routes, router })
 
 function App() {
