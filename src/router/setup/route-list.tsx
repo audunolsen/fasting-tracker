@@ -1,21 +1,22 @@
 import { createElement, lazy } from "react"
 import { definePageConfig } from "~router"
 import { RouteData } from "~router/types"
-import finalizePath from "./finalize-path"
+import { routePathFromFile } from "./path"
 import { components, configs } from "./glob"
 
 export const routeList = Object.entries(components).reduce<RouteData[]>(
-  (routes, [path, component]) => {
-    const config = configs[path]?.config ?? definePageConfig()
-    const finalizedPath = finalizePath(path, { splat: config.splat })
+  (routes, [file, component]) => {
+    const config = configs[file]?.config ?? definePageConfig()
+    const { path, segments } = routePathFromFile(file)
 
-    // console.log(path, finalizedPath)
+    const isRootPathlessGroup =
+      typeof segments[0] === "symbol" && segments.length === 1
 
     return routes.concat([
       {
-        path: finalizedPath.finalized,
-        segments: finalizedPath.segments,
+        segments,
         element: createElement(lazy(component)),
+        ...(!isRootPathlessGroup && { path }),
         ...config,
       },
     ])

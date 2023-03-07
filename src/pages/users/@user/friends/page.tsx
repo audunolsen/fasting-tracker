@@ -1,15 +1,17 @@
 import { Outlet, useParams } from "react-router-dom"
 import definePageConfig from "~router/define-page-config"
 
-export default function User() {
+export default function FriendsLayoutWrapper() {
   const { user } = useParams()
 
   return (
     <>
-      <h2>These are your firends</h2>
+      <h2>FriendsLayoutWrapper</h2>
       <Outlet />
     </>
   )
 }
 
-export const config = definePageConfig({})
+export const config = definePageConfig({
+  // path: null,
+})

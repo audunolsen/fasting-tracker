@@ -1,6 +1,4 @@
-import ErrorBoundry from "~pages/error-boundry"
 import { Options } from "./types"
-import { createElement } from "react"
 
 /**
  * Helper for creating route spesific config with reasonable defaults
@@ -10,14 +8,21 @@ import { createElement } from "react"
  */
 export default function definePageConfig({
   auth = true,
-  nested = true,
+  // nested = true,
   // errorElement = createElement(ErrorBoundry),
 
   ...rest
 }: Options = {}) {
+  // const config = {
+  //   auth,
+  //   nested,
+  //   // path === null ? "" : "",
+  //   ...rest,
+  // } satisfies Options
+
   return {
     auth,
-    nested,
+    // nested,
     // errorElement,
     ...rest,
   }
