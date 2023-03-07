@@ -25,3 +25,6 @@ dist-ssr
 
 # Build/Debug artefacts
 stats.html
+
+# Caching
+.firebase/**/*.cache
