@@ -6,76 +6,93 @@ export type RouteParams<Route extends string> = H.Pipe<
   Route,
   [
     H.Strings.Split<"/">,
-    H.Tuples.Filter<H.Strings.StartsWith<":" | "*">>,
-    H.Tuples.Map<H.ComposeLeft<[H.Strings.Trim<":">, SetKeyValue]>>,
+    H.Tuples.Filter<RequiresArg>,
+    H.Tuples.Map<SetKeyValue>,
     H.Tuples.ToUnion,
     H.Objects.FromEntries,
     FinalizeParams
   ]
 >
 
-interface SetKeyValue extends H.Fn {
-  isSplat: H.Call<H.Strings.EndsWith<"?">, this["arg0"]>
+interface RequiresArg extends H.Fn {
+  dynamic: H.Call<H.Strings.StartsWith<":" | "*">, this["arg0"]>
+  optional: H.Call<H.Strings.EndsWith<"?">, this["arg0"]>
 
-  return: this["isSplat"] extends true
-    ? [H.Call<H.Strings.TrimRight<"?">, this["arg0"]>, string | undefined]
-    : [H.Call<ReplaceAsterisk, this["arg0"]>, string]
+  return: H.Eval<H.Booleans.Or<this["dynamic"], this["optional"]>>
 }
 
-interface ReplaceAsterisk extends H.Fn {
-  return: H.Call<H.Booleans.Equals<"*">, this["arg0"]> extends true
-    ? "splat"
-    : this["arg0"]
+interface SetKeyValue extends H.Fn {
+  isDynamic: H.Call<H.Strings.StartsWith<":" | "*">, this["arg0"]>
+  isOptional: H.Call<H.Strings.EndsWith<"?">, this["arg0"]>
+  isStatic: H.Eval<H.Booleans.Not<this["isDynamic"]>>
+  key: H.Call<ReplaceKey, this["arg0"]>
+
+  optionalValue: this["isStatic"] extends true
+    ? null | undefined
+    : string | undefined
+
+  return: this["isOptional"] extends true
+    ? [this["key"], this["optionalValue"]]
+    : [this["key"], string]
+}
+
+interface ReplaceKey extends H.Fn {
+  splat: H.Eval<H.Booleans.Equals<this["arg0"], "*">>
+
+  trimmed: H.Pipe<
+    this["arg0"],
+    [H.Strings.TrimLeft<":">, H.Strings.TrimRight<"?">]
+  >
+
+  return: this["splat"] extends true ? "splat" : this["trimmed"]
 }
 
 interface FinalizeParams extends H.Fn {
   return: Utils.Flatten<Utils.MakeOptional<this["arg0"]>>
 }
 
-interface RouteFn {
-  <
-    Route extends PlainRoute,
-    Params = RouteParams<Route>,
-    /** `true` if there are no route arguments */
-    DissalowParams = Utils.IsEmpty<Params>,
-    /** `true` if there are any *required* route arguments */
-    RequireParams = Utils.HasKeys<Utils.RequiredFields<Params>>
-  >(
-    route: Route,
-    ...params: DissalowParams extends true
-      ? [never?]
-      : RequireParams extends true
-      ? [RouteParams<Route>]
-      : [RouteParams<Route>?]
-  ): string
-}
-
-/** Route function which infers route-parameters based on the argument */
-const route: RouteFn = (route, ...params) =>
-  Object.entries(params[0] ?? {}).reduce(
-    // Remember normalize path!!!
-    // eg passing undefined to optional segment
-    (path, [param, arg]) => {
-      param = param === "splat" ? "*" : `:${param}`
-
-      return path.replace(`:${param}`, String(arg))
-    },
-    String(route)
+function route<Route extends PlainRoute>(
+  route: Route,
+  ...params: Utils.OptionalIfEmpty<RouteParams<Route>>
+) {
+  const fallbackParams = Object.fromEntries(
+    route
+      .split("/")
+      .filter((e) => e.endsWith("?"))
+      .map((k) => [k.slice(k.startsWith(":") ? 1 : 0, -1), ""])
   )
 
+  const allParams: Record<string, string | undefined | null> = {
+    ...fallbackParams,
+    ...params[0],
+  }
+
+  return (
+    Object.entries(allParams)
+      .reduce(pathReducer, route)
+      .replace(/(.*)(\/$)/, "$1") || "/"
+  )
+}
+
+function pathReducer(
+  path: string,
+  [param, arg]: [string, string | undefined | null]
+) {
+  const isSplat = param === "splat"
+  const matcher = new RegExp(
+    `(?<isDynamic>:?)\\b${param}\\b(?<isOptional>\\??)`
+  )
+
+  return path.replace(isSplat ? "*" : matcher, (...args) => {
+    const { isDynamic, isOptional } = <Record<string, string>>args.at(-1)
+    let substitute: string = arg ?? ""
+
+    if (!isDynamic && isOptional) {
+      substitute = arg === null ? "" : param
+    }
+
+    return substitute
+  })
+}
+
 export default route
-
-route("users/:user/friends/:friend", {
-  user: "dfsfs",
-  friend: "fhdsk",
-})
-
-route("users")
-
-// route("plants/:lang?/categories", {
-//   lang: "NO",
-// })
-
-// route("plants/:lang?/categories")
-
-route("projects/*", { splat: "fdsfsd" })

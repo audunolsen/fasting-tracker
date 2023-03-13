@@ -6,6 +6,7 @@
 // prettier-ignore
 export const routes = [
 "/",
+"wrapped/:thing?",
 "wrapped/item?",
 "articles/*",
 "/",
